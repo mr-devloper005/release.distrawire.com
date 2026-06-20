@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { CheckCircle2 } from 'lucide-react'
 import { buildPageMetadata } from '@/lib/seo'
 import { EditableSiteShell } from '@/editable/shell/EditableSiteShell'
 import { EditableLocalSignupForm } from '@/editable/components/EditableLocalAuthForms'
@@ -12,18 +13,24 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function SignupPage() {
   return (
     <EditableSiteShell>
-      <main className="bg-[#f7f4ef] text-[#111]">
-        <section className="mx-auto grid min-h-[calc(100vh-12rem)] max-w-[var(--editable-container)] border-x border-black bg-white lg:grid-cols-[0.92fr_1.08fr]">
-          <div className="flex flex-col justify-center border-b border-black p-7 sm:p-12 lg:border-b-0 lg:border-r lg:p-16">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c92f2f]">Create account</p>
-            <h1 className="editorial-serif mt-3 text-4xl font-black">{pagesContent.auth.signup.formTitle}</h1>
+      <main className="bg-[#eef6ff] text-[#081426]">
+        <section className="mx-auto grid min-h-[calc(100vh-8rem)] max-w-[1280px] gap-8 px-4 py-12 sm:px-8 lg:grid-cols-[.9fr_1fr] lg:items-center lg:py-20">
+          <div className="rounded-[18px] bg-white p-7 shadow-[0_18px_48px_rgba(28,76,130,.10)] sm:p-10">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#2f6ee5]">Create account</p>
+            <h1 className="mt-3 text-4xl font-black">{pagesContent.auth.signup.formTitle}</h1>
             <EditableLocalSignupForm />
-            <p className="mt-5 border-t border-black pt-5 text-sm text-black/65">Already have an account? <Link href="/login" className="font-black text-[#c92f2f] underline-offset-4 hover:underline">{pagesContent.auth.signup.loginCta}</Link></p>
+            <p className="mt-5 border-t border-[#d6e4f2] pt-5 text-sm text-[#3c526e]">Already have an account? <Link href="/login" className="font-black text-[#0b55b6] underline-offset-4 hover:underline">{pagesContent.auth.signup.loginCta}</Link></p>
           </div>
-          <div className="flex flex-col justify-center bg-[#171717] p-8 text-white sm:p-12 lg:p-16">
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-[#f34a43]">{pagesContent.auth.signup.badge}</p>
-            <h2 className="editorial-brand mt-5 max-w-xl text-6xl font-black leading-[0.92] tracking-[-0.055em] sm:text-8xl">{pagesContent.auth.signup.title}</h2>
-            <p className="mt-6 max-w-lg text-sm font-semibold leading-8 text-white/68">{pagesContent.auth.signup.description}</p>
+          <div className="relative overflow-hidden rounded-[18px] bg-[linear-gradient(115deg,#285aa8_0%,#14a7c4_48%,#10c6ad_100%)] p-8 text-white shadow-[0_26px_80px_rgba(7,32,62,.20)] sm:p-12 lg:p-16">
+            <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-white/75">{pagesContent.auth.signup.badge}</p>
+            <h2 className="mt-5 max-w-xl text-5xl font-light leading-[1.05] tracking-[-0.035em] sm:text-7xl">{pagesContent.auth.signup.title}</h2>
+            <p className="mt-6 max-w-lg text-lg font-black leading-8 text-white/82">{pagesContent.auth.signup.description}</p>
+            <div className="mt-10 grid gap-3">
+              {['Publish updates', 'Save account details', 'Access the create workspace'].map((item) => (
+                <span key={item} className="inline-flex items-center gap-3 text-sm font-black"><CheckCircle2 className="h-5 w-5 text-[#d9fff7]" />{item}</span>
+              ))}
+            </div>
           </div>
         </section>
       </main>
