@@ -1,44 +1,61 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
-import { SITE_CONFIG } from '@/lib/site-config'
-import { globalContent } from '@/editable/content/global.content'
+import { Facebook, Linkedin, Mail, Send, Twitter } from 'lucide-react'
 import { useEditableLocalAuthSession } from '@/editable/components/EditableLocalAuthForms'
+
+const footerLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Search', href: '/search' },
+  { label: 'Login', href: '/login' },
+  { label: 'Register', href: '/signup' },
+]
+
+function FooterLogo() {
+  return <span className="newswire-brand text-4xl font-light tracking-[.12em] text-white"><span className="font-black">Release</span>distrawire</span>
+}
 
 export function EditableFooter() {
   const year = new Date().getFullYear()
   const { session, logout } = useEditableLocalAuthSession()
+  const visibleFooterLinks = session ? footerLinks.filter((item) => item.label !== 'Login' && item.label !== 'Register') : footerLinks
 
   return (
-    <footer className="border-t-8 border-[var(--slot4-accent)] bg-black text-white">
-      <div className="mx-auto max-w-[1440px] px-4 py-14 sm:px-6 lg:px-10 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_.7fr_.7fr]">
+    <footer className="relative overflow-hidden bg-[#202b39] text-white">
+      <div className="pointer-events-none absolute inset-0 opacity-[.045]">
+        <div className="absolute -bottom-28 left-8 h-72 w-72 rounded-full border-[22px] border-white" />
+        <div className="absolute bottom-20 left-40 h-48 w-80 rounded-[24px] border-[10px] border-white" />
+        <div className="absolute bottom-14 right-20 h-56 w-64 rounded-[24px] border-[10px] border-white" />
+        <div className="absolute right-80 top-44 h-32 w-52 rounded-[18px] border-[8px] border-white" />
+      </div>
+      <div className="relative mx-auto max-w-[1280px] px-4 py-16 sm:px-8 lg:py-24">
+        <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
+          <FooterLogo />
+          {session ? (
+            <button type="button" onClick={logout} className="inline-flex min-w-[180px] justify-center rounded-[5px] bg-[#235aaa] px-8 py-3.5 text-sm font-black text-white transition hover:bg-[#17427f]">Logout</button>
+          ) : (
+            <Link href="/signup" className="inline-flex min-w-[180px] justify-center rounded-[5px] bg-[#10c6ad] px-8 py-3.5 text-sm font-black text-white transition hover:bg-[#0aa58f]">Register</Link>
+          )}
+        </div>
+
+        <div className="mt-16 grid gap-10 md:grid-cols-[1fr_1fr] lg:grid-cols-[1fr_2fr]">
           <div>
-            <Link href="/" className="editorial-brand text-5xl font-black text-[var(--slot4-accent)] sm:text-6xl">{SITE_CONFIG.name}</Link>
-            <p className="mt-6 max-w-xl text-sm leading-7 text-white/62">{globalContent.footer?.description || SITE_CONFIG.description}</p>
-            <form action="/signup" className="mt-8 flex max-w-xl border border-white/35">
-              <input name="email" type="email" placeholder="Email for newsroom updates" className="min-w-0 flex-1 bg-transparent px-4 py-4 text-sm outline-none placeholder:text-white/40" />
-              <button className="bg-[var(--slot4-accent)] px-5 text-xs font-black uppercase tracking-[.14em]">Subscribe</button>
-            </form>
-          </div>
-          <div>
-            <h3 className="border-b border-white/25 pb-3 text-[10px] font-black uppercase tracking-[.22em] text-white/55">Explore</h3>
+            <h3 className="text-sm font-black">Quick Links</h3>
             <div className="mt-4 grid gap-3">
-              <Link href="/search" className="group inline-flex items-center justify-between text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Archive<ArrowRight className="h-4 w-4" /></Link>
+              {visibleFooterLinks.map((item) => (
+                <Link key={item.label} href={item.href} className="text-sm text-white/82 transition hover:text-[#10c6ad]">{item.label}</Link>
+              ))}
+              {session ? <button type="button" onClick={logout} className="w-fit text-left text-sm font-black text-white transition hover:text-[#10c6ad]">Logout</button> : null}
             </div>
           </div>
-          <div>
-            <h3 className="border-b border-white/25 pb-3 text-[10px] font-black uppercase tracking-[.22em] text-white/55">Publication</h3>
-            <div className="mt-4 grid gap-3">
-              <Link href="/about" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">About</Link>
-              <Link href="/contact" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Contact</Link>
-              {session ? <><Link href="/create" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Publish</Link><button onClick={logout} className="text-left text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Logout</button></> : <><Link href="/login" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Log in</Link><Link href="/signup" className="text-sm font-black uppercase tracking-[.08em] hover:text-[var(--slot4-accent)]">Subscribe</Link></>}
-            </div>
+          <div className="max-w-2xl text-sm leading-7 text-white/70">
+            <h3 className="text-sm font-black text-white">Newswire</h3>
+            <p className="mt-4">Distribute announcements, organize public updates, and help visitors find the right press release, contact page, or account link quickly.</p>
           </div>
         </div>
       </div>
-      <div className="border-t border-white/20 px-4 py-5 text-center text-[10px] font-black uppercase tracking-[.18em] text-white/45">© {year} {SITE_CONFIG.name}. Independent media and public information.</div>
     </footer>
   )
 }

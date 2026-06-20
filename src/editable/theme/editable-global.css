@@ -1,8 +1,12 @@
-/* Fully editable publication theme. Keep data and route logic outside this file. */
+/* Editable Newswire-style theme. Data, routes, and backend behavior stay outside this file. */
 :root {
-  --editorial-red: var(--slot4-accent-fill);
-  --editorial-ink: var(--slot4-page-text);
-  --editorial-paper: var(--slot4-surface-bg);
+  --newswire-blue: #2f6ee5;
+  --newswire-deep-blue: #285aa8;
+  --newswire-teal: #10c6ad;
+  --newswire-aqua: #08bfb3;
+  --newswire-ice: #eef6ff;
+  --newswire-paper: #f7fbff;
+  --newswire-ink: #081426;
 }
 
 html { scroll-behavior: smooth; }
@@ -10,78 +14,103 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--slot4-page-bg) !important;
   color: var(--slot4-page-text) !important;
-  background-image: none !important;
+  background-image: var(--slot4-body-gradient) !important;
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
 
 *::selection {
-  background: var(--editorial-red) !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff;
+  background: #ffe066 !important;
+  color: #081426 !important;
+  -webkit-text-fill-color: #081426;
 }
 
 *::-moz-selection {
-  background: var(--editorial-red) !important;
-  color: #fff !important;
+  background: #ffe066 !important;
+  color: #081426 !important;
 }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #ebe7e1; }
-::-webkit-scrollbar-thumb { background: #171717; border: 2px solid #ebe7e1; }
-::-webkit-scrollbar-thumb:hover { background: var(--editorial-red); }
+::-webkit-scrollbar-track { background: #edf4fb; }
+::-webkit-scrollbar-thumb { background: #8b9bb0; border: 2px solid #edf4fb; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--newswire-blue); }
 
-.editorial-brand,
-.editorial-serif {
-  font-family: Georgia, 'Times New Roman', serif;
+.newswire-brand {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: .04em;
 }
 
-.editorial-brand {
-  font-style: italic;
-  letter-spacing: -0.065em;
+.newswire-logo-mark {
+  background: radial-gradient(circle at 35% 30%, #ff4db8 0 28%, #d60fb1 48%, #8e2de2 100%);
+  box-shadow: 0 8px 22px rgba(214, 15, 177, .28);
 }
 
-.editorial-rule { border-color: color-mix(in srgb, var(--editorial-ink) 22%, transparent); }
+.newswire-wave-top {
+  clip-path: ellipse(78% 100% at 28% 0%);
+}
+
+.newswire-wave-bottom {
+  clip-path: ellipse(82% 78% at 30% 0%);
+}
+
+.newswire-card-float { animation: newswire-float 6s ease-in-out infinite; }
+.newswire-card-float-delayed { animation: newswire-float 7s ease-in-out infinite; animation-delay: -2s; }
+.newswire-hero-glow { animation: newswire-glow 7s ease-in-out infinite; }
+.newswire-marquee-track { animation: newswire-marquee 28s linear infinite; }
+.newswire-marquee-track:hover { animation-play-state: paused; }
+.newswire-slide-track { animation: newswire-slide 34s linear infinite; }
+.newswire-slide-track:hover { animation-play-state: paused; }
+
+@keyframes newswire-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+@keyframes newswire-glow {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: .78; }
+  50% { transform: translate3d(16px, -10px, 0) scale(1.06); opacity: 1; }
+}
+
+@keyframes newswire-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes newswire-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
 
 .article-content {
-  color: #24211e;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(1.05rem, 1vw + .75rem, 1.25rem);
+  color: #1f2a38;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(1.02rem, .45vw + .9rem, 1.18rem);
   line-height: 1.82;
 }
 
 .article-content > :first-child { margin-top: 0; }
-.article-content p { margin: 0 0 1.55em; }
-.article-content p:first-of-type::first-letter {
-  float: left;
-  margin: .08em .12em 0 0;
-  color: var(--editorial-red);
-  font-family: ui-sans-serif, system-ui, sans-serif;
-  font-size: 4.7em;
-  font-weight: 900;
-  line-height: .72;
-}
-
+.article-content p { margin: 0 0 1.45em; }
 .article-content h2,
 .article-content h3,
 .article-content h4 {
   margin: 1.8em 0 .65em;
-  color: #111;
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  color: #081426;
   font-weight: 900;
-  letter-spacing: -.045em;
-  line-height: 1.05;
+  letter-spacing: -.035em;
+  line-height: 1.08;
 }
 .article-content h2 { font-size: clamp(1.8rem, 4vw, 3rem); }
-.article-content h3 { font-size: clamp(1.45rem, 3vw, 2.15rem); }
-.article-content a { color: var(--editorial-red); font-weight: 700; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
-.article-content blockquote { margin: 2em 0; border-left: 7px solid var(--editorial-red); padding: .2em 0 .2em 1em; color: #111; font-size: 1.35em; font-weight: 700; line-height: 1.35; }
+.article-content h3 { font-size: clamp(1.4rem, 3vw, 2.1rem); }
+.article-content a { color: var(--newswire-blue); font-weight: 800; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.article-content blockquote { margin: 2em 0; border-left: 7px solid var(--newswire-teal); padding: .2em 0 .2em 1em; color: #081426; font-size: 1.25em; font-weight: 800; line-height: 1.42; }
 .article-content ul, .article-content ol { margin: 1.3em 0; padding-left: 1.4em; }
 .article-content li { margin: .5em 0; }
-.article-content img { width: 100%; margin: 2em 0; }
+.article-content img { width: 100%; margin: 2em 0; border-radius: 12px; }
 
-input, textarea, select, button { border-radius: 0 !important; }
+input, textarea, select, button { border-radius: 5px; }
 
-@media (max-width: 640px) {
-  .article-content { font-size: 1.05rem; line-height: 1.72; }
-  .article-content p:first-of-type::first-letter { font-size: 3.9em; }
+@media (max-width: 760px) {
+  .newswire-wave-top,
+  .newswire-wave-bottom { clip-path: none; }
+  .newswire-marquee-track,
+  .newswire-slide-track { animation-duration: 42s; }
 }
