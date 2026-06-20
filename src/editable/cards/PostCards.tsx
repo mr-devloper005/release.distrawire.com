@@ -16,6 +16,10 @@ export function getEditablePostImage(post?: SitePost | null) {
   return mediaUrl || directImage || contentImage || '/placeholder.svg?height=900&width=1400'
 }
 
+function safeTitle(post?: SitePost | null) {
+  return post?.title || 'Newswire update'
+}
+
 export function getEditableExcerpt(post?: SitePost | null, limit = 150) {
   const content = post?.content && typeof post.content === 'object' ? post.content as Record<string, unknown> : {}
   const raw =
@@ -64,6 +68,42 @@ export function RailPostCard({ post, href, index }: { post: SitePost; href: stri
           <span>{getEditableCategory(post)}</span><span>{String(index + 1).padStart(2, '0')}</span>
         </div>
         <h3 className="mt-3 line-clamp-3 text-xl font-black leading-[1.02] tracking-[-.04em]">{post.title}</h3>
+      </div>
+    </Link>
+  )
+}
+
+export function ImageFirstReleaseCard({ post, href, index }: { post: SitePost; href: string; index: number }) {
+  return (
+    <Link href={href} className="group block w-[280px] shrink-0 overflow-hidden rounded-[14px] bg-white text-[#081426] shadow-[0_18px_42px_rgba(8,20,38,.14)] transition duration-300 hover:-translate-y-1 sm:w-[330px]">
+      <div className="relative aspect-[16/10] overflow-hidden bg-[#dceaf6]">
+        <img src={getEditablePostImage(post)} alt={safeTitle(post)} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+        <span className="absolute left-4 top-4 rounded-full bg-[#10c6ad] px-3 py-1 text-[10px] font-black uppercase tracking-[.18em] text-white">{getEditableCategory(post)}</span>
+      </div>
+      <div className="p-5">
+        <p className="text-[10px] font-black uppercase tracking-[.2em] text-[#2f6ee5]">Release {String(index + 1).padStart(2, '0')}</p>
+        <h3 className="mt-2 line-clamp-3 text-lg font-black leading-tight">{safeTitle(post)}</h3>
+        <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[#0b55b6]">Read PR <ArrowRight className="h-4 w-4" /></span>
+      </div>
+    </Link>
+  )
+}
+
+export function ReleaseColumnCard({ post, href, index }: { post: SitePost; href: string; index: number }) {
+  const variant = index % 5
+  const hasLargeImage = variant === 0 || variant === 2 || variant === 4
+  return (
+    <Link href={href} className="group mb-12 block break-inside-avoid border-b border-[#d6e4f2] pb-7 text-[#202632]">
+      {hasLargeImage ? (
+        <div className={`overflow-hidden bg-white ${variant === 0 ? 'rounded-[15px] p-5' : 'rounded-[12px]'}`}>
+          <img src={getEditablePostImage(post)} alt={safeTitle(post)} className={`${variant === 4 ? 'aspect-[16/9]' : 'aspect-[4/3]'} w-full rounded-[10px] object-cover transition duration-500 group-hover:scale-[1.03]`} />
+        </div>
+      ) : null}
+      <div className={hasLargeImage ? 'mt-7' : ''}>
+        <p className="mb-3 text-[10px] font-black uppercase tracking-[.22em] text-[#2f6ee5]">{getEditableCategory(post)}</p>
+        <h3 className={`${variant === 1 ? 'text-xl' : 'text-lg'} line-clamp-5 font-black leading-[1.35] tracking-[-.015em] group-hover:text-[#0b55b6]`}>{safeTitle(post)}</h3>
+        <p className={`${variant === 3 ? 'block' : 'hidden'} mt-3 line-clamp-3 text-sm leading-6 text-[#3c526e]`}>{getEditableExcerpt(post, 130)}</p>
+        <span className="mt-5 inline-flex items-center gap-3 text-lg font-medium text-[#0b55b6]">Read PR <ArrowRight className="h-4 w-4" /></span>
       </div>
     </Link>
   )
